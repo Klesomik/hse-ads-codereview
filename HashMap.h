@@ -170,19 +170,19 @@ public:
     using const_iterator = CIterator<KeyT, ValueT>;
 
     HashMap(HashT tmp = HashT()):
-        buckets(1), sz(0), hasher(tmp)
+        buckets(default_sz), sz(0), hasher(tmp)
     {
     }
 
     template<typename IterT>
     HashMap(IterT start, IterT finish, HashT tmp = HashT()):
-        buckets(1), sz(0), hasher(tmp)
+        buckets(default_sz), sz(0), hasher(tmp)
     {
         copy_range(start, finish);
     }
 
     HashMap(const std::initializer_list<std::pair<KeyT, ValueT>>& buffer, HashT tmp = HashT()):
-        buckets(1), sz(0), hasher(tmp)
+        buckets(default_sz), sz(0), hasher(tmp)
     {
         copy_range(buffer.begin(), buffer.end());
     }
@@ -322,7 +322,7 @@ public:
     void clear()
     {
         buckets.clear();
-        buckets.resize(1);
+        buckets.resize(default_sz);
 
         sz = 0;
     }
@@ -354,6 +354,8 @@ public:
 
 private:
     using container_t = std::vector<std::list<std::pair<const KeyT, ValueT>>>;
+
+    static const size_t default_sz = 1;
 
     container_t buckets;
 
